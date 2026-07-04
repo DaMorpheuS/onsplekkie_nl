@@ -179,7 +179,10 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; }
   align-items: center;
   justify-content: center;
   padding: 3.5rem 1rem;
-  background: rgba(0, 0, 0, 0.92);
+  /* Keep the page visible but blurred and gently dimmed behind the viewer */
+  background: rgba(15, 20, 15, 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 .op-lightbox.is-open {
   display: flex;
