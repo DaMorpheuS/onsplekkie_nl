@@ -64,8 +64,13 @@ defmodule OnsplekkieNlWeb.Router do
     put "/images/:id", AdminImageController, :update
     delete "/images/:id", AdminImageController, :delete
 
+    get "/agenda", AdminAgendaController, :index
+    post "/agenda/blocks", AdminAgendaController, :create_block
+    delete "/agenda/blocks/:id", AdminAgendaController, :delete_block
+
     get "/inbox", AdminInboxController, :index
-    put "/inbox/reservations/:id/toggle", AdminInboxController, :toggle_reservation
+    put "/inbox/reservations/:id/confirm", AdminInboxController, :confirm_reservation
+    put "/inbox/reservations/:id/cancel", AdminInboxController, :cancel_reservation
     delete "/inbox/reservations/:id", AdminInboxController, :delete_reservation
     put "/inbox/messages/:id/toggle", AdminInboxController, :toggle_message
     delete "/inbox/messages/:id", AdminInboxController, :delete_message

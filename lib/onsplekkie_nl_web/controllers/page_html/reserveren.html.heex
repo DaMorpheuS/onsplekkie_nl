@@ -17,6 +17,61 @@
           action={~p"/reserveren"}
           class="space-y-1"
         >
+          <%!-- Availability calendar --%>
+          <div class="mb-8">
+            <p class="mb-3 font-heading font-semibold text-ink">{t(@locale, "cal.intro")}</p>
+
+            <div
+              id="booking-calendar"
+              data-booking-calendar
+              data-occupied={Jason.encode!(@occupied)}
+              data-today={Date.to_iso8601(@today)}
+              data-arrival="#reservation_arrival"
+              data-departure="#reservation_departure"
+              data-summary="#res-summary"
+              data-native="#native-dates"
+              data-locale={@locale}
+              data-label-nights={t(@locale, "cal.nights")}
+              data-label-prev={t(@locale, "cal.prev")}
+              data-label-next={t(@locale, "cal.next")}
+            >
+            </div>
+
+            <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink/70">
+              <span class="flex items-center gap-2">
+                <span class="inline-block size-4 rounded border border-gray-300 bg-white"></span>
+                {t(@locale, "cal.available")}
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="inline-block size-4 rounded bg-red-200"></span>
+                {t(@locale, "cal.occupied")}
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="inline-block size-4 rounded bg-brand"></span>
+                {t(@locale, "cal.selected")}
+              </span>
+            </div>
+
+            <p id="res-summary" class="mt-4 font-semibold text-brand"></p>
+
+            <%!-- Real date inputs; enhanced (and hidden) by the calendar, and a
+                 usable fallback when JavaScript is unavailable. --%>
+            <div id="native-dates" class="mt-4 grid gap-x-5 sm:grid-cols-2">
+              <.input
+                field={f[:arrival]}
+                type="date"
+                label={t(@locale, "form.arrival") <> " *"}
+                min={Date.to_iso8601(@today)}
+              />
+              <.input
+                field={f[:departure]}
+                type="date"
+                label={t(@locale, "form.departure") <> " *"}
+              />
+            </div>
+          </div>
+
+          <%!-- Guest details --%>
           <div class="grid gap-x-5 sm:grid-cols-2">
             <.input field={f[:first_name]} label={t(@locale, "form.first_name") <> " *"} />
             <.input field={f[:last_name]} label={t(@locale, "form.last_name") <> " *"} />
@@ -32,8 +87,6 @@
               min="1"
               max="6"
             />
-            <.input field={f[:arrival]} type="date" label={t(@locale, "form.arrival")} />
-            <.input field={f[:departure]} type="date" label={t(@locale, "form.departure")} />
           </div>
           <.input
             field={f[:comments]}

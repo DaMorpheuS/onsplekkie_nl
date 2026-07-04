@@ -24,6 +24,7 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import {hooks as colocatedHooks} from "phoenix-colocated/onsplekkie_nl"
 import topbar from "../vendor/topbar"
+import {initBookingCalendars} from "./booking_calendar"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
@@ -187,6 +188,7 @@ function initLightbox() {
 function initInteractions() {
   initScrollAnimations()
   initLightbox()
+  initBookingCalendars()
 }
 
 if (document.readyState !== "loading") {

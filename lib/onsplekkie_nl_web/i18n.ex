@@ -86,6 +86,19 @@ defmodule OnsplekkieNlWeb.I18n do
       "de" => "Eindrücke der Umgebung"
     },
 
+    # Availability calendar
+    "cal.intro" => %{
+      "nl" => "Kies uw aankomst- en vertrekdatum in de kalender.",
+      "en" => "Choose your arrival and departure date in the calendar.",
+      "de" => "Wählen Sie Ihr Anreise- und Abreisedatum im Kalender."
+    },
+    "cal.available" => %{"nl" => "Vrij", "en" => "Available", "de" => "Frei"},
+    "cal.occupied" => %{"nl" => "Bezet", "en" => "Booked", "de" => "Belegt"},
+    "cal.selected" => %{"nl" => "Geselecteerd", "en" => "Selected", "de" => "Ausgewählt"},
+    "cal.nights" => %{"nl" => "nachten", "en" => "nights", "de" => "Nächte"},
+    "cal.prev" => %{"nl" => "Vorige maand", "en" => "Previous month", "de" => "Voriger Monat"},
+    "cal.next" => %{"nl" => "Volgende maand", "en" => "Next month", "de" => "Nächster Monat"},
+
     # Lightbox
     "lb.close" => %{"nl" => "Sluiten", "en" => "Close", "de" => "Schließen"},
     "lb.prev" => %{"nl" => "Vorige", "en" => "Previous", "de" => "Zurück"},

@@ -1,27 +1,36 @@
 defmodule OnsplekkieNlWeb.AdminInboxController do
   use OnsplekkieNlWeb, :controller
 
+  alias OnsplekkieNl.Bookings
   alias OnsplekkieNl.Inquiries
 
   def index(conn, _params) do
     render(conn, :index,
       active: :inbox,
       page_title: "Aanvragen",
-      reservations: Inquiries.list_reservations(),
+      reservations: Bookings.list_reservations(),
       messages: Inquiries.list_messages()
     )
   end
 
-  def toggle_reservation(conn, %{"id" => id}) do
-    id |> Inquiries.get_reservation!() |> Inquiries.toggle_reservation_handled()
+  def confirm_reservation(conn, %{"id" => id}) do
+    id |> Bookings.get_reservation!() |> Bookings.confirm_reservation()
 
     conn
-    |> put_flash(:info, "Status bijgewerkt.")
+    |> put_flash(:info, "Reservering bevestigd als geboekt.")
+    |> redirect(to: ~p"/admin/inbox")
+  end
+
+  def cancel_reservation(conn, %{"id" => id}) do
+    id |> Bookings.get_reservation!() |> Bookings.cancel_reservation()
+
+    conn
+    |> put_flash(:info, "Reservering geannuleerd; de data zijn weer vrij.")
     |> redirect(to: ~p"/admin/inbox")
   end
 
   def delete_reservation(conn, %{"id" => id}) do
-    id |> Inquiries.get_reservation!() |> Inquiries.delete_reservation()
+    id |> Bookings.get_reservation!() |> Bookings.delete_reservation()
 
     conn
     |> put_flash(:info, "Reservering verwijderd.")

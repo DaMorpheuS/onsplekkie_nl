@@ -228,4 +228,105 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; }
   display: none;
 }
 
+/* Availability calendar ----------------------------------------------------- */
+.op-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.op-cal-title {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--color-ink);
+}
+.op-cal-nav {
+  display: inline-flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand) 10%, white);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.op-cal-nav:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-brand) 22%, white);
+}
+.op-cal-nav:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.op-cal-months {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 640px) {
+  .op-cal-months {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.op-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.op-cal-wd {
+  padding-bottom: 0.35rem;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: color-mix(in srgb, var(--color-ink) 45%, white);
+}
+.op-cal-day {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.op-cal-day:hover:not(.is-past):not(:disabled) {
+  border-color: var(--color-brand);
+}
+.op-cal-day.is-past {
+  color: #cbd5e1;
+  background: #f8fafc;
+  cursor: default;
+}
+.op-cal-day.is-occupied {
+  background: #fecaca;
+  color: #991b1b;
+  border-color: #fca5a5;
+  text-decoration: line-through;
+}
+.op-cal-day.is-selected {
+  background: color-mix(in srgb, var(--color-brand) 22%, white);
+  border-color: var(--color-brand);
+  color: var(--color-brand-dark);
+  text-decoration: none;
+}
+.op-cal-day.is-start,
+.op-cal-day.is-end {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #fff;
+  font-weight: 700;
+}
+
 /* This file is for your main application CSS */

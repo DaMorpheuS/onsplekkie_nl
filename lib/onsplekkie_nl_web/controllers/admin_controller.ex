@@ -1,6 +1,7 @@
 defmodule OnsplekkieNlWeb.AdminController do
   use OnsplekkieNlWeb, :controller
 
+  alias OnsplekkieNl.Bookings
   alias OnsplekkieNl.Content
   alias OnsplekkieNl.Inquiries
 
@@ -84,14 +85,14 @@ defmodule OnsplekkieNlWeb.AdminController do
   def content_groups, do: @content_groups
 
   def index(conn, _params) do
-    reservations = Inquiries.list_reservations()
+    reservations = Bookings.list_reservations()
     messages = Inquiries.list_messages()
 
     render(conn, :dashboard,
       active: :dashboard,
       page_title: "Dashboard",
       reservation_count: length(reservations),
-      new_reservation_count: Enum.count(reservations, &(!&1.handled)),
+      new_reservation_count: Enum.count(reservations, &(&1.status == "reserved")),
       message_count: length(messages),
       new_message_count: Enum.count(messages, &(!&1.handled)),
       image_count: count_images(),

@@ -1,19 +1,10 @@
-defmodule OnsplekkieNlWeb.AdminInboxHTML do
+defmodule OnsplekkieNlWeb.AdminAgendaHTML do
   use OnsplekkieNlWeb, :html
 
-  embed_templates "admin_inbox_html/*"
+  embed_templates "admin_agenda_html/*"
 
   def fmt(nil), do: "—"
   def fmt(%Date{} = d), do: Calendar.strftime(d, "%d-%m-%Y")
-
-  def fmt(%DateTime{} = dt),
-    do: Calendar.strftime(dt, "%d-%m-%Y %H:%M")
-
-  def fmt(value), do: to_string(value)
-
-  def present(nil), do: "—"
-  def present(""), do: "—"
-  def present(v), do: v
 
   def status_label("reserved"), do: "Gereserveerd"
   def status_label("booked"), do: "Geboekt"

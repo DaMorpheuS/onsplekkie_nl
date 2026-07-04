@@ -437,6 +437,7 @@ defmodule OnsplekkieNlWeb.Layouts do
             <.admin_link to={~p"/admin"} label="Dashboard" active={@active == :dashboard} />
             <.admin_link to={~p"/admin/content"} label="Teksten" active={@active == :content} />
             <.admin_link to={~p"/admin/images"} label="Afbeeldingen" active={@active == :images} />
+            <.admin_link to={~p"/admin/agenda"} label="Agenda" active={@active == :agenda} />
             <.admin_link to={~p"/admin/inbox"} label="Aanvragen" active={@active == :inbox} />
             <a href={~p"/"} target="_blank" class="text-white/70 hover:text-white">Bekijk site ↗</a>
             <.link href={~p"/admin/logout"} method="delete" class="text-white/70 hover:text-white">

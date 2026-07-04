@@ -1,12 +1,13 @@
 defmodule OnsplekkieNlWeb.InquiryController do
   use OnsplekkieNlWeb, :controller
 
+  alias OnsplekkieNl.Bookings
   alias OnsplekkieNl.Content
   alias OnsplekkieNl.Inquiries
   alias OnsplekkieNlWeb.I18n
 
   def create_reservation(conn, %{"reservation" => params}) do
-    case Inquiries.create_reservation(params) do
+    case Bookings.create_reservation(params) do
       {:ok, _reservation} ->
         conn
         |> put_flash(:info, I18n.t(conn.assigns.locale, "flash.reservation_ok"))
@@ -18,6 +19,8 @@ defmodule OnsplekkieNlWeb.InquiryController do
         |> assign(:active, :reserveren)
         |> assign(:page_title, "Reserveren")
         |> assign(:hero, Content.get_image_by_slug("reserveren_hero"))
+        |> assign(:occupied, Bookings.occupied_night_strings())
+        |> assign(:today, Date.utc_today())
         |> assign(:changeset, changeset)
         |> render(OnsplekkieNlWeb.PageHTML, :reserveren)
     end

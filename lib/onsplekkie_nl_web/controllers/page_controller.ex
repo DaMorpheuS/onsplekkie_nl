@@ -1,6 +1,7 @@
 defmodule OnsplekkieNlWeb.PageController do
   use OnsplekkieNlWeb, :controller
 
+  alias OnsplekkieNl.Bookings
   alias OnsplekkieNl.Content
   alias OnsplekkieNl.Inquiries
 
@@ -37,7 +38,9 @@ defmodule OnsplekkieNlWeb.PageController do
     |> assign(:active, :reserveren)
     |> assign(:page_title, "Reserveren")
     |> assign(:hero, Content.get_image_by_slug("reserveren_hero"))
-    |> assign(:changeset, Inquiries.change_reservation())
+    |> assign(:occupied, Bookings.occupied_night_strings())
+    |> assign(:today, Date.utc_today())
+    |> assign(:changeset, Bookings.change_reservation())
     |> render(:reserveren)
   end
 
