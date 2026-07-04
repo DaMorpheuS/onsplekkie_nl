@@ -72,6 +72,7 @@ function build(root) {
         summaryEl.textContent = ""
       }
     }
+    document.dispatchEvent(new CustomEvent("booking:change"))
   }
 
   function pick(d) {

@@ -87,6 +87,13 @@
             <dt class="text-ink/50">Adres</dt>
             <dd>{present(r.address)} {r.postcode} {r.city}</dd>
           </div>
+          <div>
+            <dt class="text-ink/50">Prijs</dt>
+            <dd class="font-semibold text-ink">
+              {money(r.total_price)}
+              <span class="font-normal text-ink/50">· linnen {(r.linen && "ja") || "nee"}</span>
+            </dd>
+          </div>
         </dl>
         <div
           :if={present(r.comments) != "—"}

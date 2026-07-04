@@ -15,4 +15,10 @@ defmodule OnsplekkieNlWeb.AdminAgendaHTML do
   def status_class("booked"), do: "bg-green-100 text-green-800"
   def status_class("cancelled"), do: "bg-gray-100 text-gray-500"
   def status_class(_), do: "bg-gray-100 text-gray-600"
+
+  def money(nil), do: "—"
+
+  def money(%Decimal{} = d) do
+    "€ " <> (d |> Decimal.round(2) |> Decimal.to_string() |> String.replace(".", ","))
+  end
 end

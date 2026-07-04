@@ -26,6 +26,8 @@ defmodule OnsplekkieNl.Inquiries.Reservation do
     field :departure, :date
     field :comments, :string
     field :status, :string, default: "reserved"
+    field :linen, :boolean, default: false
+    field :total_price, :decimal
     field :handled, :boolean, default: false
 
     timestamps(type: :utc_datetime)
@@ -46,6 +48,8 @@ defmodule OnsplekkieNl.Inquiries.Reservation do
       :departure,
       :comments,
       :status,
+      :linen,
+      :total_price,
       :handled
     ])
     |> validate_required([

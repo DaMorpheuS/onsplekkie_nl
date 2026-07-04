@@ -2,6 +2,7 @@ defmodule OnsplekkieNl.BookingsTest do
   use OnsplekkieNl.DataCase, async: true
 
   alias OnsplekkieNl.Bookings
+  alias OnsplekkieNl.Content
 
   defp days(n), do: Date.add(Date.utc_today(), n)
 
@@ -47,6 +48,18 @@ defmodule OnsplekkieNl.BookingsTest do
 
     refute Bookings.available?(days(19), days(21))
     assert Bookings.available?(days(23), days(25))
+  end
+
+  test "the computed total price is stored on the reservation" do
+    Content.put_setting("price_per_night", "100")
+    Content.put_setting("price_cleaning", "50")
+    Content.put_setting("price_energy_per_day", "0")
+    Content.put_setting("price_tourist_tax_pppd", "0")
+    Content.put_setting("price_linen_pp", "10")
+
+    # 3 nights × €100 + €50 cleaning, 2 guests, no linen = €350
+    {:ok, reservation} = Bookings.create_reservation(valid_attrs(days(10), days(13)))
+    assert Decimal.equal?(reservation.total_price, Decimal.new("350.00"))
   end
 
   test "cancelling a reservation frees its dates; confirming keeps them held" do

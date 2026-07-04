@@ -10,9 +10,10 @@ defmodule OnsplekkieNl.Bookings do
   """
 
   import Ecto.Query, warn: false
-  import Ecto.Changeset, only: [get_field: 2, add_error: 3]
+  import Ecto.Changeset, only: [get_field: 2, add_error: 3, put_change: 3]
 
   alias OnsplekkieNl.Repo
+  alias OnsplekkieNl.Content
   alias OnsplekkieNl.Inquiries.Reservation
   alias OnsplekkieNl.Bookings.BlockedPeriod
   alias OnsplekkieNl.Mailer
@@ -98,10 +99,67 @@ defmodule OnsplekkieNl.Bookings do
          }}
 
       true ->
-        with {:ok, reservation} <- Repo.insert(changeset) do
+        arrival = get_field(changeset, :arrival)
+        departure = get_field(changeset, :departure)
+        nights = Date.diff(departure, arrival)
+
+        total =
+          total_price(nights, get_field(changeset, :num_persons), get_field(changeset, :linen))
+
+        with {:ok, reservation} <- changeset |> put_change(:total_price, total) |> Repo.insert() do
           notify_reservation(reservation)
           {:ok, reservation}
         end
+    end
+  end
+
+  ## Pricing ---------------------------------------------------------------
+
+  @price_keys ~w(price_per_night price_cleaning price_energy_per_day
+                 price_tourist_tax_pppd price_linen_pp)
+
+  @doc "Current unit prices as a map of Decimals, read from the content settings."
+  def pricing do
+    settings = Content.settings_map()
+
+    %{
+      night: dec(settings["price_per_night"]),
+      cleaning: dec(settings["price_cleaning"]),
+      energy: dec(settings["price_energy_per_day"]),
+      tax: dec(settings["price_tourist_tax_pppd"]),
+      linen: dec(settings["price_linen_pp"])
+    }
+  end
+
+  def price_keys, do: @price_keys
+
+  @doc "Total price (Decimal) for a stay of `nights` nights with `persons` guests."
+  def total_price(nights, persons, linen?)
+      when is_integer(nights) and nights > 0 and is_integer(persons) do
+    p = pricing()
+
+    p.night
+    |> Decimal.mult(nights)
+    |> Decimal.add(p.cleaning)
+    |> Decimal.add(Decimal.mult(p.energy, nights))
+    |> Decimal.add(p.tax |> Decimal.mult(persons) |> Decimal.mult(nights))
+    |> maybe_add_linen(linen?, p.linen, persons)
+    |> Decimal.round(2)
+  end
+
+  def total_price(_, _, _), do: nil
+
+  defp maybe_add_linen(total, true, linen_price, persons),
+    do: Decimal.add(total, Decimal.mult(linen_price, persons))
+
+  defp maybe_add_linen(total, _, _, _), do: total
+
+  defp dec(nil), do: Decimal.new(0)
+
+  defp dec(value) do
+    case value |> to_string() |> String.replace(",", ".") |> String.trim() |> Decimal.parse() do
+      {decimal, _rest} -> decimal
+      :error -> Decimal.new(0)
     end
   end
 

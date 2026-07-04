@@ -88,6 +88,7 @@
               max="6"
             />
           </div>
+          <.input field={f[:linen]} type="checkbox" label={t(@locale, "price.linen_option")} />
           <.input
             field={f[:comments]}
             type="textarea"
@@ -121,6 +122,39 @@
           <.icon name="hero-information-circle-solid" class="mt-0.5 size-5 shrink-0" />
           {@settings["reserveren_note"]}
         </p>
+
+        <%!-- Live price estimate (filled by assets/js/booking_price.js) --%>
+        <div
+          id="price-breakdown"
+          data-price-breakdown
+          class="mt-6 hidden rounded-2xl bg-white p-5 shadow-sm ring-1 ring-brand/15"
+          data-price-night={@settings["price_per_night"]}
+          data-price-cleaning={@settings["price_cleaning"]}
+          data-price-energy={@settings["price_energy_per_day"]}
+          data-price-tax={@settings["price_tourist_tax_pppd"]}
+          data-price-linen={@settings["price_linen_pp"]}
+          data-arrival="#reservation_arrival"
+          data-departure="#reservation_departure"
+          data-persons="#reservation_num_persons"
+          data-linen="#reservation_linen"
+          data-locale={@locale}
+          data-l-night={t(@locale, "price.night")}
+          data-l-cleaning={t(@locale, "price.cleaning")}
+          data-l-energy={t(@locale, "price.energy")}
+          data-l-tax={t(@locale, "price.tax")}
+          data-l-linen={t(@locale, "price.linen")}
+          data-l-persons={t(@locale, "price.persons")}
+          data-l-nights={t(@locale, "cal.nights")}
+        >
+          <h4 class="mb-3 font-heading text-lg font-bold text-ink">
+            {t(@locale, "price.title")}
+          </h4>
+          <div data-price-rows class="space-y-2 text-sm text-ink/80"></div>
+          <div class="mt-3 flex items-center justify-between border-t border-black/10 pt-3 font-heading text-lg font-bold text-ink">
+            <span>{t(@locale, "price.total")}</span>
+            <span data-price-total class="text-brand"></span>
+          </div>
+        </div>
       </aside>
     </div>
   </section>

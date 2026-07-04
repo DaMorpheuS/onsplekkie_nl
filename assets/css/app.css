@@ -329,4 +329,16 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; }
   font-weight: 700;
 }
 
+/* Price breakdown rows */
+.op-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.op-price-detail {
+  color: color-mix(in srgb, var(--color-ink) 45%, white);
+  font-size: 0.8em;
+}
+
 /* This file is for your main application CSS */

@@ -65,8 +65,16 @@ defmodule OnsplekkieNlWeb.AdminController do
        {"reserveren_intro_title", "Introtitel", :text},
        {"reserveren_intro_text", "Introtekst", :textarea},
        {"reserveren_rates_title", "Titel tarieven", :text},
-       {"reserveren_rates", "Tarieven (één per regel)", :list},
+       {"reserveren_rates", "Tarieven (weergegeven als lijst, één per regel)", :list},
        {"reserveren_note", "Opmerking", :textarea}
+     ]},
+    {"Prijzen (voor de prijscalculator, gebruik een punt als decimaal)",
+     [
+       {"price_per_night", "Prijs per nacht (€)", :text},
+       {"price_cleaning", "Eindschoonmaak (€)", :text},
+       {"price_energy_per_day", "Energietoeslag per dag (€)", :text},
+       {"price_tourist_tax_pppd", "Toeristenbelasting p.p. per dag (€)", :text},
+       {"price_linen_pp", "Linnengoed p.p. (€)", :text}
      ]},
     {"Contact-pagina",
      [

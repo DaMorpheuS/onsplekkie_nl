@@ -99,6 +99,29 @@ defmodule OnsplekkieNlWeb.I18n do
     "cal.prev" => %{"nl" => "Vorige maand", "en" => "Previous month", "de" => "Voriger Monat"},
     "cal.next" => %{"nl" => "Volgende maand", "en" => "Next month", "de" => "Nächster Monat"},
 
+    # Price calculator
+    "price.title" => %{"nl" => "Uw prijs", "en" => "Your price", "de" => "Ihr Preis"},
+    "price.night" => %{"nl" => "Overnachting", "en" => "Accommodation", "de" => "Übernachtung"},
+    "price.cleaning" => %{
+      "nl" => "Eindschoonmaak",
+      "en" => "Final cleaning",
+      "de" => "Endreinigung"
+    },
+    "price.energy" => %{
+      "nl" => "Energietoeslag",
+      "en" => "Energy surcharge",
+      "de" => "Energiezuschlag"
+    },
+    "price.tax" => %{"nl" => "Toeristenbelasting", "en" => "Tourist tax", "de" => "Kurtaxe"},
+    "price.linen" => %{"nl" => "Linnengoed", "en" => "Bed & bath linen", "de" => "Wäschepaket"},
+    "price.total" => %{"nl" => "Totaal", "en" => "Total", "de" => "Gesamt"},
+    "price.persons" => %{"nl" => "pers.", "en" => "guests", "de" => "Pers."},
+    "price.linen_option" => %{
+      "nl" => "Bed-, bad- en keukenlinnen toevoegen (per persoon)",
+      "en" => "Add bed, bath and kitchen linen (per person)",
+      "de" => "Bett-, Bade- und Küchenwäsche hinzufügen (pro Person)"
+    },
+
     # Lightbox
     "lb.close" => %{"nl" => "Sluiten", "en" => "Close", "de" => "Schließen"},
     "lb.prev" => %{"nl" => "Vorige", "en" => "Previous", "de" => "Zurück"},

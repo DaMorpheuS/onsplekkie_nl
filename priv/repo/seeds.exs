@@ -135,6 +135,13 @@ settings = %{
     ),
   "reserveren_note" => "Helaas zijn huisdieren niet toegestaan.",
 
+  # Prices used by the booking calculator (numbers; use a dot as decimal sep.)
+  "price_per_night" => "135.00",
+  "price_cleaning" => "100.00",
+  "price_energy_per_day" => "10.00",
+  "price_tourist_tax_pppd" => "1.85",
+  "price_linen_pp" => "10.00",
+
   # Contact page
   "contact_title" => "Contact",
   "contact_intro_title" => "Neem gerust contact met ons op",
