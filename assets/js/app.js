@@ -106,10 +106,93 @@ function initScrollAnimations() {
   }
 }
 
-if (document.readyState !== "loading") {
+// ---------------------------------------------------------------------------
+// Image lightbox: click a gallery image to open a full-screen viewer with
+// previous/next navigation through that gallery's images.
+// ---------------------------------------------------------------------------
+function initLightbox() {
+  const box = document.getElementById("op-lightbox")
+  if (!box) return
+
+  const imgEl = box.querySelector("[data-lb-image]")
+  const curEl = box.querySelector("[data-lb-current]")
+  const totEl = box.querySelector("[data-lb-total]")
+
+  // Group all triggers on the page by their data-lightbox value.
+  const groups = {}
+  const triggers = document.querySelectorAll("[data-lightbox]")
+  triggers.forEach(el => {
+    const name = el.getAttribute("data-lightbox")
+    const list = (groups[name] = groups[name] || [])
+    list.push({src: el.getAttribute("href"), alt: el.querySelector("img")?.alt || ""})
+  })
+
+  let current = []
+  let index = 0
+
+  const show = i => {
+    if (!current.length) return
+    index = (i + current.length) % current.length
+    const item = current[index]
+    imgEl.src = item.src
+    imgEl.alt = item.alt
+    if (curEl) curEl.textContent = index + 1
+    if (totEl) totEl.textContent = current.length
+  }
+
+  const open = (name, i) => {
+    current = groups[name] || []
+    if (!current.length) return
+    box.classList.toggle("op-lb-single", current.length <= 1)
+    box.classList.add("is-open")
+    box.setAttribute("aria-hidden", "false")
+    document.body.style.overflow = "hidden"
+    show(i)
+  }
+
+  const close = () => {
+    box.classList.remove("is-open")
+    box.setAttribute("aria-hidden", "true")
+    document.body.style.overflow = ""
+    imgEl.src = ""
+  }
+
+  triggers.forEach(el => {
+    el.addEventListener("click", e => {
+      e.preventDefault()
+      const name = el.getAttribute("data-lightbox")
+      const href = el.getAttribute("href")
+      const i = (groups[name] || []).findIndex(x => x.src === href)
+      open(name, i < 0 ? 0 : i)
+    })
+  })
+
+  box.querySelector("[data-lb-next]")?.addEventListener("click", () => show(index + 1))
+  box.querySelector("[data-lb-prev]")?.addEventListener("click", () => show(index - 1))
+  box.querySelectorAll("[data-lb-close]").forEach(b => b.addEventListener("click", close))
+
+  // Click on the dark backdrop (but not the image or buttons) closes.
+  box.addEventListener("click", e => {
+    if (e.target === box) close()
+  })
+
+  document.addEventListener("keydown", e => {
+    if (!box.classList.contains("is-open")) return
+    if (e.key === "Escape") close()
+    else if (e.key === "ArrowRight") show(index + 1)
+    else if (e.key === "ArrowLeft") show(index - 1)
+  })
+}
+
+function initInteractions() {
   initScrollAnimations()
+  initLightbox()
+}
+
+if (document.readyState !== "loading") {
+  initInteractions()
 } else {
-  document.addEventListener("DOMContentLoaded", initScrollAnimations)
+  document.addEventListener("DOMContentLoaded", initInteractions)
 }
 
 if (process.env.NODE_ENV === "development") {

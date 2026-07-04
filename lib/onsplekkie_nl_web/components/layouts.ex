@@ -212,6 +212,38 @@ defmodule OnsplekkieNlWeb.Layouts do
           </div>
         </div>
       </footer>
+
+      <%!-- Image lightbox (controlled by assets/js/app.js) --%>
+      <div id="op-lightbox" class="op-lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+        <button
+          type="button"
+          data-lb-close
+          aria-label={t(@locale, "lb.close")}
+          class="op-lb-btn absolute right-4 top-4"
+        >
+          <.icon name="hero-x-mark" class="size-7" />
+        </button>
+        <button
+          type="button"
+          data-lb-prev
+          aria-label={t(@locale, "lb.prev")}
+          class="op-lb-btn op-lb-arrow absolute left-3 top-1/2 -translate-y-1/2 sm:left-6"
+        >
+          <.icon name="hero-chevron-left" class="size-7" />
+        </button>
+        <img data-lb-image src="" alt="" class="op-lb-img" />
+        <button
+          type="button"
+          data-lb-next
+          aria-label={t(@locale, "lb.next")}
+          class="op-lb-btn op-lb-arrow absolute right-3 top-1/2 -translate-y-1/2 sm:right-6"
+        >
+          <.icon name="hero-chevron-right" class="size-7" />
+        </button>
+        <div class="op-lb-counter">
+          <span data-lb-current>1</span> / <span data-lb-total>1</span>
+        </div>
+      </div>
     </div>
     """
   end

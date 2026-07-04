@@ -86,6 +86,11 @@ defmodule OnsplekkieNlWeb.I18n do
       "de" => "Eindrücke der Umgebung"
     },
 
+    # Lightbox
+    "lb.close" => %{"nl" => "Sluiten", "en" => "Close", "de" => "Schließen"},
+    "lb.prev" => %{"nl" => "Vorige", "en" => "Previous", "de" => "Zurück"},
+    "lb.next" => %{"nl" => "Volgende", "en" => "Next", "de" => "Weiter"},
+
     # Contact page
     "contact.map_title" => %{
       "nl" => "Locatie Ons Plekkie",

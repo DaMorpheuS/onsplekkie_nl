@@ -40,7 +40,7 @@
         <a
           :for={{img, i} <- Enum.with_index(@gallery)}
           href={img.path}
-          target="_blank"
+          data-lightbox="omgeving"
           class="op-card block overflow-hidden rounded-xl shadow-sm"
           data-animate="up"
           style={"transition-delay: #{rem(i, 3) * 90}ms"}

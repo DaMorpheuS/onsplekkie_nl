@@ -46,7 +46,7 @@
         <a
           :for={{img, i} <- Enum.with_index(@gallery)}
           href={img.path}
-          target="_blank"
+          data-lightbox="accommodatie"
           class="op-card block overflow-hidden rounded-xl shadow-sm"
           data-animate="up"
           style={"transition-delay: #{rem(i, 4) * 70}ms"}
@@ -75,7 +75,9 @@
           data-animate="up"
           style={"transition-delay: #{i * 120}ms"}
         >
-          <img src={img.path} alt={img.alt} class="mx-auto max-h-[420px] w-auto" />
+          <a href={img.path} data-lightbox="floorplans" class="block">
+            <img src={img.path} alt={img.alt} class="mx-auto max-h-[420px] w-auto" />
+          </a>
           <figcaption class="mt-3 text-center text-sm text-ink/70">{img.caption}</figcaption>
         </figure>
       </div>

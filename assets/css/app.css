@@ -165,4 +165,64 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; }
   will-change: transform;
 }
 
+/* Gallery images hint that they open a larger view */
+.js [data-lightbox] {
+  cursor: zoom-in;
+}
+
+/* Lightbox overlay ---------------------------------------------------------- */
+.op-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem;
+  background: rgba(0, 0, 0, 0.92);
+}
+.op-lightbox.is-open {
+  display: flex;
+  animation: op-lb-fade 0.2s ease;
+}
+@keyframes op-lb-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.op-lb-img {
+  max-width: 92vw;
+  max-height: 84vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.op-lb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 0.6rem;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+.op-lb-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+.op-lb-counter {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+/* Hide the prev/next arrows and counter when a group has a single image */
+.op-lightbox.op-lb-single .op-lb-arrow,
+.op-lightbox.op-lb-single .op-lb-counter {
+  display: none;
+}
+
 /* This file is for your main application CSS */
