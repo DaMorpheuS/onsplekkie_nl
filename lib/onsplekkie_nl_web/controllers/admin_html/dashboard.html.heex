@@ -1,0 +1,79 @@
+<Layouts.admin flash={@flash} active={@active}>
+  <h1 class="mb-8 font-heading text-3xl font-bold text-ink">Dashboard</h1>
+
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <a
+      href={~p"/admin/inbox"}
+      class="rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <p class="text-sm text-ink/60">Reserveringen</p>
+      <p class="mt-2 font-heading text-3xl font-bold text-ink">{@reservation_count}</p>
+      <p :if={@new_reservation_count > 0} class="mt-1 text-sm font-semibold text-brand">
+        {@new_reservation_count} nieuw
+      </p>
+    </a>
+    <a
+      href={~p"/admin/inbox"}
+      class="rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <p class="text-sm text-ink/60">Contactberichten</p>
+      <p class="mt-2 font-heading text-3xl font-bold text-ink">{@message_count}</p>
+      <p :if={@new_message_count > 0} class="mt-1 text-sm font-semibold text-brand">
+        {@new_message_count} nieuw
+      </p>
+    </a>
+    <a
+      href={~p"/admin/images"}
+      class="rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <p class="text-sm text-ink/60">Afbeeldingen</p>
+      <p class="mt-2 font-heading text-3xl font-bold text-ink">{@image_count}</p>
+    </a>
+    <a
+      href={~p"/admin/content"}
+      class="rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <p class="text-sm text-ink/60">Tekstvelden</p>
+      <p class="mt-2 font-heading text-3xl font-bold text-ink">{@setting_count}</p>
+    </a>
+  </div>
+
+  <div class="mt-10 grid gap-6 sm:grid-cols-3">
+    <a
+      href={~p"/admin/content"}
+      class="flex items-center gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <span class="flex size-12 items-center justify-center rounded-full bg-brand/10 text-brand">
+        <.icon name="hero-pencil-square" class="size-6" />
+      </span>
+      <div>
+        <p class="font-heading font-semibold text-ink">Teksten bewerken</p>
+        <p class="text-sm text-ink/60">Pas alle teksten op de site aan</p>
+      </div>
+    </a>
+    <a
+      href={~p"/admin/images"}
+      class="flex items-center gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <span class="flex size-12 items-center justify-center rounded-full bg-brand/10 text-brand">
+        <.icon name="hero-photo" class="size-6" />
+      </span>
+      <div>
+        <p class="font-heading font-semibold text-ink">Afbeeldingen beheren</p>
+        <p class="text-sm text-ink/60">Vervang of voeg foto's toe</p>
+      </div>
+    </a>
+    <a
+      href={~p"/admin/inbox"}
+      class="flex items-center gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md"
+    >
+      <span class="flex size-12 items-center justify-center rounded-full bg-brand/10 text-brand">
+        <.icon name="hero-inbox" class="size-6" />
+      </span>
+      <div>
+        <p class="font-heading font-semibold text-ink">Aanvragen bekijken</p>
+        <p class="text-sm text-ink/60">Reserveringen en berichten</p>
+      </div>
+    </a>
+  </div>
+</Layouts.admin>

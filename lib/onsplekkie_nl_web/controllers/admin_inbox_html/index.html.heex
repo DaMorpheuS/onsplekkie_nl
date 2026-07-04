@@ -1,0 +1,151 @@
+<Layouts.admin flash={@flash} active={@active}>
+  <h1 class="mb-8 font-heading text-3xl font-bold text-ink">Aanvragen</h1>
+
+  <%!-- Reservations --%>
+  <section class="mb-12">
+    <h2 class="mb-4 font-heading text-xl font-bold text-ink">
+      Reserveringen <span class="text-ink/40">({length(@reservations)})</span>
+    </h2>
+
+    <p :if={@reservations == []} class="rounded-2xl bg-white p-6 text-ink/60 shadow-sm">
+      Nog geen reserveringsaanvragen.
+    </p>
+
+    <div class="space-y-4">
+      <article
+        :for={r <- @reservations}
+        class={["rounded-2xl bg-white p-6 shadow-sm", r.handled && "opacity-60"]}
+      >
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p class="font-heading text-lg font-semibold text-ink">
+              {r.first_name} {r.last_name}
+              <span
+                :if={not r.handled}
+                class="ml-2 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white"
+              >
+                nieuw
+              </span>
+            </p>
+            <p class="text-sm text-ink/60">Ontvangen {fmt(r.inserted_at)}</p>
+          </div>
+          <div class="flex gap-2">
+            <form action={~p"/admin/inbox/reservations/#{r.id}/toggle"} method="post">
+              <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+              <input type="hidden" name="_method" value="put" />
+              <button class="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-ink hover:bg-gray-200">
+                {if r.handled, do: "Markeer als nieuw", else: "Markeer als afgehandeld"}
+              </button>
+            </form>
+            <form
+              action={~p"/admin/inbox/reservations/#{r.id}"}
+              method="post"
+              onsubmit="return confirm('Verwijderen?');"
+            >
+              <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+              <input type="hidden" name="_method" value="delete" />
+              <button class="rounded-full border border-red-200 px-4 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">
+                Verwijderen
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <dl class="mt-4 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <dt class="text-ink/50">Telefoon</dt><dd>{present(r.phone)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">E-mail</dt><dd>{present(r.email)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">Aantal personen</dt><dd>{present(r.num_persons)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">Aankomst</dt><dd>{fmt(r.arrival)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">Vertrek</dt><dd>{fmt(r.departure)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">Adres</dt>
+            <dd>{present(r.address)} {r.postcode} {r.city}</dd>
+          </div>
+        </dl>
+        <div
+          :if={present(r.comments) != "—"}
+          class="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-ink/80"
+        >
+          {r.comments}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <%!-- Messages --%>
+  <section>
+    <h2 class="mb-4 font-heading text-xl font-bold text-ink">
+      Contactberichten <span class="text-ink/40">({length(@messages)})</span>
+    </h2>
+
+    <p :if={@messages == []} class="rounded-2xl bg-white p-6 text-ink/60 shadow-sm">
+      Nog geen contactberichten.
+    </p>
+
+    <div class="space-y-4">
+      <article
+        :for={m <- @messages}
+        class={["rounded-2xl bg-white p-6 shadow-sm", m.handled && "opacity-60"]}
+      >
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p class="font-heading text-lg font-semibold text-ink">
+              {m.first_name} {m.last_name}
+              <span
+                :if={not m.handled}
+                class="ml-2 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white"
+              >
+                nieuw
+              </span>
+            </p>
+            <p class="text-sm text-ink/60">Ontvangen {fmt(m.inserted_at)}</p>
+          </div>
+          <div class="flex gap-2">
+            <form action={~p"/admin/inbox/messages/#{m.id}/toggle"} method="post">
+              <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+              <input type="hidden" name="_method" value="put" />
+              <button class="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-ink hover:bg-gray-200">
+                {if m.handled, do: "Markeer als nieuw", else: "Markeer als afgehandeld"}
+              </button>
+            </form>
+            <form
+              action={~p"/admin/inbox/messages/#{m.id}"}
+              method="post"
+              onsubmit="return confirm('Verwijderen?');"
+            >
+              <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+              <input type="hidden" name="_method" value="delete" />
+              <button class="rounded-full border border-red-200 px-4 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">
+                Verwijderen
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <dl class="mt-4 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <dt class="text-ink/50">E-mail</dt><dd>{present(m.email)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">Telefoon</dt><dd>{present(m.phone)}</dd>
+          </div>
+          <div>
+            <dt class="text-ink/50">Adres</dt>
+            <dd>{present(m.address)} {m.postcode} {m.city}</dd>
+          </div>
+        </dl>
+        <div class="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-ink/80">{m.question}</div>
+      </article>
+    </div>
+  </section>
+</Layouts.admin>

@@ -1,0 +1,88 @@
+<Layouts.admin flash={@flash} active={@active}>
+  <h1 class="mb-2 font-heading text-3xl font-bold text-ink">Afbeeldingen</h1>
+  <p class="mb-8 text-ink/60">
+    Vervang losse afbeeldingen of beheer de fotogalerijen. Toegestaan: jpg, png, webp, gif.
+  </p>
+
+  <div class="space-y-10">
+    <section :for={collection <- @collections} class="rounded-2xl bg-white p-6 shadow-sm">
+      <div class="mb-5 flex items-center justify-between">
+        <h2 class="font-heading text-xl font-bold text-ink">{collection.label}</h2>
+        <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-ink/60">
+          {if collection.kind == :single,
+            do: "Losse afbeelding",
+            else: "#{length(collection.images)} foto's"}
+        </span>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          :for={img <- collection.images}
+          class="overflow-hidden rounded-xl border border-gray-200"
+        >
+          <img src={img.path} alt={img.alt} class="aspect-[4/3] w-full bg-gray-100 object-cover" />
+          <div class="space-y-2 p-3">
+            <form
+              action={~p"/admin/images/#{img.id}"}
+              method="post"
+              enctype="multipart/form-data"
+              class="space-y-2"
+            >
+              <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+              <input type="hidden" name="_method" value="put" />
+              <input
+                type="text"
+                name="image[alt]"
+                value={img.alt}
+                placeholder="Omschrijving"
+                class="w-full rounded border border-gray-300 px-2 py-1 text-xs"
+              />
+              <div :if={collection.kind == :gallery} class="flex items-center gap-2">
+                <input
+                  type="text"
+                  name="image[caption]"
+                  value={img.caption}
+                  placeholder="Bijschrift"
+                  class="w-full rounded border border-gray-300 px-2 py-1 text-xs"
+                />
+                <input
+                  type="number"
+                  name="image[position]"
+                  value={img.position}
+                  title="Volgorde"
+                  class="w-16 rounded border border-gray-300 px-2 py-1 text-xs"
+                />
+              </div>
+              <label class="block text-xs text-ink/60">Vervang bestand (optioneel)</label>
+              <input type="file" name="image[file]" accept="image/*" class="block w-full text-xs" />
+              <button
+                type="submit"
+                class="w-full rounded-full bg-teal px-3 py-1.5 text-xs font-semibold text-white hover:brightness-95"
+              >
+                Opslaan
+              </button>
+            </form>
+            <form
+              action={~p"/admin/images/#{img.id}"}
+              method="post"
+              onsubmit="return confirm('Afbeelding verwijderen?');"
+            >
+              <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+              <input type="hidden" name="_method" value="delete" />
+              <button
+                type="submit"
+                class="w-full rounded-full border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+              >
+                Verwijderen
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <.add_form collection={collection} />
+      </div>
+    </section>
+  </div>
+</Layouts.admin>

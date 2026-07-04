@@ -1,0 +1,71 @@
+<Layouts.admin flash={@flash} active={@active}>
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="font-heading text-3xl font-bold text-ink">Teksten bewerken</h1>
+  </div>
+
+  <%!-- Language tabs --%>
+  <div class="mb-8 flex flex-wrap gap-2">
+    <a
+      :for={loc <- @locales}
+      href={~p"/admin/content?locale=#{loc}"}
+      class={[
+        "rounded-full px-5 py-2 text-sm font-semibold transition",
+        @locale == loc && "bg-brand text-white",
+        @locale != loc && "bg-white text-ink hover:bg-gray-100"
+      ]}
+    >
+      {String.upcase(loc)} · {OnsplekkieNlWeb.I18n.language_name(loc)}
+    </a>
+  </div>
+
+  <p :if={@locale != "nl"} class="mb-6 rounded-xl bg-amber-50 p-4 text-sm text-amber-800">
+    U bewerkt de <strong>{OnsplekkieNlWeb.I18n.language_name(@locale)}</strong>
+    vertaling. Laat een veld leeg om automatisch de Nederlandse tekst te tonen. De grijze tekst
+    toont de Nederlandse versie ter referentie.
+  </p>
+
+  <form action={~p"/admin/content"} method="post" class="space-y-8">
+    <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="locale" value={@locale} />
+
+    <section :for={{title, fields} <- @groups} class="rounded-2xl bg-white p-6 shadow-sm">
+      <h2 class="mb-5 border-b border-gray-100 pb-3 font-heading text-xl font-bold text-ink">
+        {title}
+      </h2>
+      <div class="space-y-5">
+        <div :for={{key, label, type} <- fields}>
+          <label for={"f_#{key}"} class="mb-1 block text-sm font-semibold text-ink">
+            {label}
+          </label>
+          <textarea
+            :if={type in [:textarea, :list]}
+            id={"f_#{key}"}
+            name={"settings[#{key}]"}
+            rows={if type == :list, do: "8", else: "3"}
+            placeholder={@locale != "nl" && @base[key]}
+            class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
+          >{@values[key]}</textarea>
+          <input
+            :if={type == :text}
+            type="text"
+            id={"f_#{key}"}
+            name={"settings[#{key}]"}
+            value={@values[key]}
+            placeholder={@locale != "nl" && @base[key]}
+            class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
+          />
+        </div>
+      </div>
+    </section>
+
+    <div class="sticky bottom-4 flex justify-end">
+      <button
+        type="submit"
+        class="rounded-full bg-brand px-8 py-3 font-semibold text-white shadow-lg transition hover:bg-brand-dark"
+      >
+        {String.upcase(@locale)} opslaan
+      </button>
+    </div>
+  </form>
+</Layouts.admin>

@@ -1,0 +1,74 @@
+<Layouts.site settings={@settings} active={@active} flash={@flash} locale={@locale}>
+  <.page_hero title={@settings["reserveren_title"]} image={@hero} />
+
+  <section class="bg-white py-16">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-[1.6fr_1fr]">
+      <%!-- Booking form --%>
+      <div data-animate="up">
+        <h2 class="mb-2 font-heading text-3xl font-bold text-ink">
+          {@settings["reserveren_intro_title"]}
+        </h2>
+        <p class="mb-8 text-ink/70">{@settings["reserveren_intro_text"]}</p>
+
+        <.form
+          :let={f}
+          for={@changeset}
+          as={:reservation}
+          action={~p"/reserveren"}
+          class="space-y-1"
+        >
+          <div class="grid gap-x-5 sm:grid-cols-2">
+            <.input field={f[:first_name]} label={t(@locale, "form.first_name") <> " *"} />
+            <.input field={f[:last_name]} label={t(@locale, "form.last_name") <> " *"} />
+            <.input field={f[:phone]} label={t(@locale, "form.phone") <> " *"} />
+            <.input field={f[:email]} type="email" label={t(@locale, "form.email") <> " *"} />
+            <.input field={f[:address]} label={t(@locale, "form.address")} />
+            <.input field={f[:postcode]} label={t(@locale, "form.postcode")} />
+            <.input field={f[:city]} label={t(@locale, "form.city")} />
+            <.input
+              field={f[:num_persons]}
+              type="number"
+              label={t(@locale, "form.num_persons") <> " *"}
+              min="1"
+              max="6"
+            />
+            <.input field={f[:arrival]} type="date" label={t(@locale, "form.arrival")} />
+            <.input field={f[:departure]} type="date" label={t(@locale, "form.departure")} />
+          </div>
+          <.input
+            field={f[:comments]}
+            type="textarea"
+            label={t(@locale, "form.comments")}
+            rows="4"
+          />
+          <button
+            type="submit"
+            class="mt-4 rounded-full bg-brand px-8 py-3 font-semibold text-white transition hover:bg-brand-dark"
+          >
+            {t(@locale, "form.submit_reservation")}
+          </button>
+        </.form>
+      </div>
+
+      <%!-- Rates sidebar --%>
+      <aside class="h-fit rounded-2xl bg-cream p-8 shadow-sm" data-animate="right">
+        <h3 class="mb-5 font-heading text-2xl font-bold text-ink">
+          {@settings["reserveren_rates_title"]}
+        </h3>
+        <ul class="space-y-3">
+          <li
+            :for={rate <- lines(@settings["reserveren_rates"])}
+            class="flex items-start gap-2 border-b border-black/5 pb-3 text-ink/80"
+          >
+            <.icon name="hero-currency-euro-solid" class="mt-0.5 size-5 shrink-0 text-brand" />
+            <span>{rate}</span>
+          </li>
+        </ul>
+        <p class="mt-6 flex items-start gap-2 rounded-xl bg-brand/10 p-4 text-sm font-medium text-brand">
+          <.icon name="hero-information-circle-solid" class="mt-0.5 size-5 shrink-0" />
+          {@settings["reserveren_note"]}
+        </p>
+      </aside>
+    </div>
+  </section>
+</Layouts.site>

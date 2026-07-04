@@ -1,0 +1,145 @@
+<Layouts.site settings={@settings} active={@active} flash={@flash} locale={@locale}>
+  <%!-- Hero --%>
+  <section class="relative flex min-h-[82vh] items-center overflow-hidden">
+    <img
+      :if={@hero}
+      src={@hero.path}
+      alt={@hero.alt}
+      data-parallax="0.15"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/10"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-4 py-24">
+      <div class="max-w-xl text-white" data-animate="up">
+        <p class="mb-3 font-heading text-lg font-medium text-white/90">
+          {@settings["home_hero_subtitle"]}
+        </p>
+        <h1 class="font-heading text-4xl font-extrabold leading-tight drop-shadow sm:text-5xl lg:text-6xl">
+          {@settings["home_hero_title"]}
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed text-white/90">
+          {@settings["home_hero_text"]}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href={~p"/accommodatie"}
+            class="rounded-full bg-brand px-7 py-3 font-semibold text-white shadow-lg transition hover:bg-brand-dark"
+          >
+            {t(@locale, "home.btn_accommodatie")}
+          </a>
+          <a
+            href={~p"/reserveren"}
+            class="rounded-full border-2 border-white/80 px-7 py-3 font-semibold text-white transition hover:bg-white hover:text-ink"
+          >
+            {t(@locale, "home.btn_reserveren")}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%!-- Intro --%>
+  <section class="bg-white py-20">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-4 lg:grid-cols-2">
+      <div data-animate="up">
+        <p class="mb-3 font-heading text-sm font-semibold uppercase tracking-wide text-brand">
+          {@settings["home_intro_eyebrow"]}
+        </p>
+        <h2 class="mb-6 font-heading text-3xl font-bold leading-snug text-ink">
+          {@settings["home_intro_title"]}
+        </h2>
+        <.paragraphs text={@settings["home_intro_text"]} />
+        <a
+          href={~p"/accommodatie"}
+          class="mt-4 inline-block rounded-full bg-teal px-6 py-2.5 font-semibold text-white transition hover:brightness-95"
+        >
+          {t(@locale, "home.btn_accommodatie")}
+        </a>
+      </div>
+      <div class="op-card overflow-hidden rounded-2xl shadow-xl" data-animate="right">
+        <img
+          :if={@intro_image}
+          src={@intro_image.path}
+          alt={@intro_image.alt}
+          class="op-card-img aspect-[4/3] w-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <%!-- Accommodatie teaser --%>
+  <section class="bg-cream py-20">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-4 lg:grid-cols-2">
+      <div
+        class="op-card order-2 overflow-hidden rounded-2xl shadow-xl lg:order-1"
+        data-animate="left"
+      >
+        <img
+          :if={@accommodatie_image}
+          src={@accommodatie_image.path}
+          alt={@accommodatie_image.alt}
+          class="op-card-img aspect-[4/3] w-full object-cover"
+        />
+      </div>
+      <div class="order-1 lg:order-2" data-animate="up">
+        <h2 class="mb-6 font-heading text-3xl font-bold text-ink">
+          {@settings["home_accommodatie_title"]}
+        </h2>
+        <.paragraphs text={@settings["home_accommodatie_text"]} />
+        <a
+          href={~p"/omgeving"}
+          class="mt-4 inline-block rounded-full bg-leaf px-6 py-2.5 font-semibold text-white transition hover:brightness-95"
+        >
+          {t(@locale, "home.btn_omgeving")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <%!-- Reviews --%>
+  <section class="bg-white py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="mb-12 text-center font-heading text-3xl font-bold text-ink">
+        {@settings["home_reviews_title"]}
+      </h2>
+      <div class="grid gap-8 md:grid-cols-3">
+        <%= for i <- 1..3 do %>
+          <figure
+            class="flex h-full flex-col rounded-2xl bg-cream p-8 shadow-sm"
+            data-animate="up"
+            style={"transition-delay: #{(i - 1) * 120}ms"}
+          >
+            <div class="mb-4 text-brand">
+              <.icon name="hero-star-solid" class="size-5" />
+              <.icon name="hero-star-solid" class="size-5" />
+              <.icon name="hero-star-solid" class="size-5" />
+              <.icon name="hero-star-solid" class="size-5" />
+              <.icon name="hero-star-solid" class="size-5" />
+            </div>
+            <blockquote class="flex-1 leading-relaxed text-ink/80">
+              {@settings["review_#{i}_text"]}
+            </blockquote>
+            <figcaption class="mt-6 font-heading font-semibold text-brand">
+              — {@settings["review_#{i}_name"]}
+            </figcaption>
+          </figure>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <%!-- CTA --%>
+  <section class="bg-brand py-16 text-center text-white">
+    <div class="mx-auto max-w-3xl px-4" data-animate="zoom">
+      <p class="mb-6 font-heading text-2xl font-semibold">
+        {@settings["footer_reserveren_text"]}
+      </p>
+      <a
+        href={~p"/reserveren"}
+        class="inline-block rounded-full bg-white px-8 py-3 font-semibold text-brand transition hover:bg-white/90"
+      >
+        {t(@locale, "home.btn_book_now")}
+      </a>
+    </div>
+  </section>
+</Layouts.site>

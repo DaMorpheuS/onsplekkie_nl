@@ -1,0 +1,78 @@
+<Layouts.site settings={@settings} active={@active} flash={@flash} locale={@locale}>
+  <.page_hero title={@settings["contact_title"]} image={nil} />
+
+  <section class="bg-white py-16">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-2">
+      <%!-- Contact details + form --%>
+      <div data-animate="up">
+        <h2 class="mb-4 font-heading text-3xl font-bold text-ink">
+          {@settings["contact_intro_title"]}
+        </h2>
+        <p class="mb-8 leading-relaxed text-ink/80">{@settings["contact_intro_text"]}</p>
+
+        <ul class="mb-10 space-y-4">
+          <li class="flex items-center gap-3 text-ink/80">
+            <span class="flex size-10 items-center justify-center rounded-full bg-brand/10 text-brand">
+              <.icon name="hero-map-pin-solid" class="size-5" />
+            </span>
+            {@settings["contact_address"]}
+          </li>
+          <li class="flex items-center gap-3 text-ink/80">
+            <span class="flex size-10 items-center justify-center rounded-full bg-brand/10 text-brand">
+              <.icon name="hero-phone-solid" class="size-5" />
+            </span>
+            <a
+              href={"tel:#{String.replace(@settings["contact_phone"] || "", " ", "")}"}
+              class="hover:text-brand"
+            >
+              {@settings["contact_phone"]}
+            </a>
+          </li>
+          <li class="flex items-center gap-3 text-ink/80">
+            <span class="flex size-10 items-center justify-center rounded-full bg-brand/10 text-brand">
+              <.icon name="hero-envelope-solid" class="size-5" />
+            </span>
+            <a href={"mailto:#{@settings["contact_email"]}"} class="hover:text-brand">
+              {@settings["contact_email"]}
+            </a>
+          </li>
+        </ul>
+
+        <.form :let={f} for={@changeset} as={:message} action={~p"/contact"} class="space-y-1">
+          <div class="grid gap-x-5 sm:grid-cols-2">
+            <.input field={f[:first_name]} label={t(@locale, "form.first_name") <> " *"} />
+            <.input field={f[:last_name]} label={t(@locale, "form.last_name")} />
+            <.input field={f[:address]} label={t(@locale, "form.address")} />
+            <.input field={f[:postcode]} label={t(@locale, "form.postcode")} />
+            <.input field={f[:city]} label={t(@locale, "form.city")} />
+            <.input field={f[:phone]} label={t(@locale, "form.phone")} />
+          </div>
+          <.input field={f[:email]} type="email" label={t(@locale, "form.email") <> " *"} />
+          <.input
+            field={f[:question]}
+            type="textarea"
+            label={t(@locale, "form.question") <> " *"}
+            rows="5"
+          />
+          <button
+            type="submit"
+            class="mt-4 rounded-full bg-brand px-8 py-3 font-semibold text-white transition hover:bg-brand-dark"
+          >
+            {t(@locale, "form.submit_contact")}
+          </button>
+        </.form>
+      </div>
+
+      <%!-- Map --%>
+      <div class="min-h-[400px] overflow-hidden rounded-2xl shadow-lg" data-animate="right">
+        <iframe
+          title={t(@locale, "contact.map_title")}
+          class="h-full min-h-[400px] w-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src={"https://www.google.com/maps?q=#{URI.encode(@settings["contact_maps_query"] || @settings["contact_address"] || "")}&output=embed"}
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</Layouts.site>

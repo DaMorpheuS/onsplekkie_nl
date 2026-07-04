@@ -1,0 +1,27 @@
+<Layouts.flash_group flash={@flash} />
+<div class="flex min-h-screen items-center justify-center bg-[#20301f] px-4">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
+    <h1 class="mb-1 text-center font-heading text-2xl font-bold text-ink">Ons Plekkie</h1>
+    <p class="mb-6 text-center text-sm text-ink/60">Beheer — log in om verder te gaan</p>
+    <form action={~p"/admin/login"} method="post" class="space-y-4">
+      <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+      <div>
+        <label for="password" class="mb-1 block text-sm font-semibold text-ink">Wachtwoord</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autofocus
+          required
+          class="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full rounded-full bg-brand px-6 py-2.5 font-semibold text-white transition hover:bg-brand-dark"
+      >
+        Inloggen
+      </button>
+    </form>
+  </div>
+</div>
