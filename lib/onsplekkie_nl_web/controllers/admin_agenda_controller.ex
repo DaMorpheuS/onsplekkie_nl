@@ -2,6 +2,7 @@ defmodule OnsplekkieNlWeb.AdminAgendaController do
   use OnsplekkieNlWeb, :controller
 
   alias OnsplekkieNl.Bookings
+  alias OnsplekkieNl.Content
 
   def index(conn, _params) do
     render(conn, :index,
@@ -10,8 +11,26 @@ defmodule OnsplekkieNlWeb.AdminAgendaController do
       occupied: Bookings.occupied_night_strings(),
       today: Date.utc_today(),
       blocks: Bookings.list_blocked_periods(),
-      upcoming: Bookings.upcoming_reservations()
+      upcoming: Bookings.upcoming_reservations(),
+      prices: Content.settings_map()
     )
+  end
+
+  def update_prices(conn, %{"prices" => params}) do
+    params
+    |> Map.take(Bookings.price_keys())
+    |> Enum.each(fn {key, value} ->
+      Content.put_setting(key, normalize_price(value), "nl")
+    end)
+
+    conn
+    |> put_flash(:info, "Prijzen opgeslagen.")
+    |> redirect(to: ~p"/admin/agenda")
+  end
+
+  # Accept a comma or dot as decimal separator, store with a dot.
+  defp normalize_price(value) do
+    value |> to_string() |> String.trim() |> String.replace(",", ".")
   end
 
   def create_block(conn, %{"blocked_period" => params}) do

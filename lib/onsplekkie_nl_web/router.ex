@@ -65,6 +65,7 @@ defmodule OnsplekkieNlWeb.Router do
     delete "/images/:id", AdminImageController, :delete
 
     get "/agenda", AdminAgendaController, :index
+    put "/agenda/prices", AdminAgendaController, :update_prices
     post "/agenda/blocks", AdminAgendaController, :create_block
     delete "/agenda/blocks/:id", AdminAgendaController, :delete_block
 
